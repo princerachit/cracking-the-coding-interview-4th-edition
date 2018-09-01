@@ -44,20 +44,19 @@ func (ss *SetOfStacks) push(val int) {
 		ss.activeStack = 0
 	}
 
-	// check the length of the stacks
-	// if the length of last Stack is 10 then
-	// create a new Stack
-	// pushing element to the last stack
-
+	// check if the active stack is full
 	if ss.stacks[ss.activeStack].top == 9 {
+		// Add a new stack and increment activeStack count by 1
 		if len(ss.stacks)-1 == ss.activeStack {
 			ss.stacks = append(ss.stacks, *NewStack())
 		}
 		ss.activeStack++
 	}
 
+	// Get the active stack
 	lastStack := ss.stacks[ss.activeStack]
 
+	// push the new element
 	lastStack.array[lastStack.top+1] = val
 	// increment top by 1
 	lastStack.top = lastStack.top + 1
