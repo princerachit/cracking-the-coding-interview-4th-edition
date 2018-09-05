@@ -19,6 +19,8 @@ type Stack struct {
 	top   int
 }
 
+var Threshold = 10
+
 // SetOfStacks which internally utilizes Stack
 type SetOfStacks struct {
 	activeStack int
@@ -34,35 +36,36 @@ func NewSetOfStacks() *SetOfStacks {
 
 // NewStack is a constructor for Stack
 func NewStack() *Stack {
-	return &Stack{array: make([]int, 10), top: -1}
+	return &Stack{array: make([]int, Threshold), top: -1}
 }
 
-func (ss *SetOfStacks) push(val int) {
+func (ss *SetOfStacks) Push(val int) {
 	// if no stack is present then create one
 	if ss.stacks == nil || len(ss.stacks) == 0 {
 		ss.stacks = append(ss.stacks, *NewStack())
 		ss.activeStack = 0
 	}
 
-	// check if the active stack is full
-	if ss.stacks[ss.activeStack].top == 9 {
-		// Add a new stack and increment activeStack count by 1
+	// check the length of the stacks
+	// if the length of last Stack is 10 (Threshold) then
+	// create a new Stack
+	// pushing element to the last stack
+
+	if ss.stacks[ss.activeStack].top == Threshold-1 {
 		if len(ss.stacks)-1 == ss.activeStack {
 			ss.stacks = append(ss.stacks, *NewStack())
 		}
 		ss.activeStack++
 	}
 
-	// Get the active stack
-	lastStack := ss.stacks[ss.activeStack]
+	lastStack := &ss.stacks[ss.activeStack]
 
-	// push the new element
 	lastStack.array[lastStack.top+1] = val
 	// increment top by 1
 	lastStack.top = lastStack.top + 1
 }
 
-func (ss *SetOfStacks) pop() (int, error) {
+func (ss *SetOfStacks) Pop() (int, error) {
 
 	// check length and activeStack
 	if ss.activeStack == -1 {
@@ -70,7 +73,7 @@ func (ss *SetOfStacks) pop() (int, error) {
 	}
 
 	// find the last stack
-	lastStack := ss.stacks[ss.activeStack]
+	lastStack := &ss.stacks[ss.activeStack]
 	// retrieve top val from the last stack
 	poppedVal := lastStack.array[lastStack.top]
 	lastStack.top--
@@ -78,4 +81,18 @@ func (ss *SetOfStacks) pop() (int, error) {
 		ss.activeStack--
 	}
 	return poppedVal, nil
+}
+
+func (ss *SetOfStacks) Display() {
+	if ss.activeStack == -1 {
+		fmt.Println("Empty Stack")
+		return
+	}
+
+	fmt.Println("Stack contents:")
+	for i := 0; i <= ss.activeStack; i++ {
+		for j := 0; j <= ss.stacks[i].top; j++ {
+			fmt.Printf("%d\t", ss.stacks[i].array[j])
+		}
+	}
 }
