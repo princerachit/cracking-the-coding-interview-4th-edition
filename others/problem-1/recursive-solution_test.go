@@ -22,6 +22,31 @@ func Test_printExecutionSequence(t *testing.T) {
 			expectedValue: "",
 		},
 		{
+			name:          "Execution Sequence for -1",
+			number:        -1,
+			expectedValue: "L",
+		},
+		{
+			name:          "Execution Sequence for -2",
+			number:        -2,
+			expectedValue: "RL",
+		},
+		{
+			name:          "Execution Sequence for -3",
+			number:        -3,
+			expectedValue: "LL",
+		},
+		{
+			name:          "Execution Sequence for 2",
+			number:        2,
+			expectedValue: "R",
+		},
+		{
+			name:          "Execution Sequence for 5",
+			number:        5,
+			expectedValue: "LLR",
+		},
+		{
 			name:          "Execution Sequence for -11",
 			number:        -11,
 			expectedValue: "LLRL",
