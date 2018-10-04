@@ -9,7 +9,11 @@ import (
 var sample string = "5 5\n1 2 3 4 5\n5 4 3 2 1\n1 1 5\n2 1 5\n1 2 4\n2 2 4\n1 3 5"
 
 func TestParser(t *testing.T) {
-	p := Parse(strings.NewReader(sample))
+	p, err := Parse(strings.NewReader(sample))
+	if err != nil {
+		t.Fatal("Error in parsing,", err)
+	}
+
 	if len(p.A) != 5 {
 		t.Errorf("Length of A wrong. Expected 5, observed %d", len(p.A))
 	}
@@ -47,7 +51,7 @@ func TestParser(t *testing.T) {
 }
 
 func TestSolve(t *testing.T) {
-	p := Problem{[]int{1, 2, 3, 4, 5}, []int{5, 4, 3, 2, 1}, []Query{}}
+	p := &Problem{[]int{1, 2, 3, 4, 5}, []int{5, 4, 3, 2, 1}, []Query{}}
 
 	table := []struct {
 		Q        Query

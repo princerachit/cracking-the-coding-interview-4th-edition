@@ -10,7 +10,14 @@ import (
 )
 
 func main() {
-	fmt.Println("vim-go")
+	p, err := Parse(os.Stdin)
+	if err != nil {
+		fmt.Println("error parsing input:", err)
+		os.Exit(1)
+	}
+	for _, q := range p.Q {
+		fmt.Println(q.Solve(p))
+	}
 }
 
 type Problem struct {
@@ -25,7 +32,7 @@ type Query struct {
 	R    int
 }
 
-func Parse(r io.Reader) Problem {
+func Parse(r io.Reader) (*Problem, error) {
 	p := Problem{}
 
 	scanner := bufio.NewScanner(r)
@@ -35,9 +42,12 @@ func Parse(r io.Reader) Problem {
 		intStrs := strings.Split(scanner.Text(), " ")
 		ints := []int{}
 		for _, s := range intStrs {
+			if len(s) == 0 {
+				continue
+			}
 			i, err := strconv.Atoi(s)
 			if err != nil {
-				panic(err) // TODO
+				return nil, err
 			}
 			ints = append(ints, i)
 		}
@@ -58,13 +68,13 @@ func Parse(r io.Reader) Problem {
 	}
 
 	if err := scanner.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, "error:", err)
-		os.Exit(1)
+		return nil, err
 	}
-	return p
+
+	return &p, nil
 }
 
-func (q Query) Solve(p Problem) int {
+func (q Query) Solve(p *Problem) int {
 	// NOTE: Our indexes are 0 based, the problem is 1 based, so we make sure to adjust.
 	v := 0
 	if q.Type == 1 {
