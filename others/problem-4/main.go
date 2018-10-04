@@ -35,11 +35,16 @@ type Query struct {
 func Parse(r io.Reader) (*Problem, error) {
 	p := Problem{}
 
-	scanner := bufio.NewScanner(r)
+	reader := bufio.NewReader(r)
 	step := 0
 
-	for scanner.Scan() {
-		intStrs := strings.Split(scanner.Text(), " ")
+	for {
+		text, readerErr := reader.ReadString('\n')
+		if readerErr != nil && readerErr != io.EOF {
+			return nil, readerErr
+		}
+
+		intStrs := strings.Split(strings.TrimRight(text, "\n"), " ")
 		ints := []int{}
 		for _, s := range intStrs {
 			if len(s) == 0 {
@@ -64,11 +69,11 @@ func Parse(r io.Reader) (*Problem, error) {
 			p.Q = append(p.Q, Query{ints[0], ints[1], ints[2]})
 		}
 
-		step = step + 1
-	}
+		if readerErr == io.EOF {
+			break
+		}
 
-	if err := scanner.Err(); err != nil {
-		return nil, err
+		step = step + 1
 	}
 
 	return &p, nil
