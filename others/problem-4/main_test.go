@@ -45,3 +45,39 @@ func TestParser(t *testing.T) {
 		}
 	}
 }
+
+func TestSolve(t *testing.T) {
+	p := Problem{[]int{1, 2, 3, 4, 5}, []int{5, 4, 3, 2, 1}, []Query{}}
+
+	table := []struct {
+		Q        Query
+		Expected int
+	}{
+		{
+			Query{1, 1, 5},
+			15,
+		},
+		{
+			Query{2, 1, 5},
+			15,
+		},
+		{
+			Query{1, 2, 4},
+			9,
+		},
+		{
+			Query{2, 2, 4},
+			9,
+		},
+		{
+			Query{1, 3, 5},
+			10,
+		},
+	}
+
+	for _, testSet := range table {
+		if testSet.Q.Solve(p) != testSet.Expected {
+			t.Errorf("Invalid solution for %v. Expected %d, got %d", testSet.Q, testSet.Expected, testSet.Q.Solve(p))
+		}
+	}
+}

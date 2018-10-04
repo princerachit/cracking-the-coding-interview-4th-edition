@@ -63,3 +63,28 @@ func Parse(r io.Reader) Problem {
 	}
 	return p
 }
+
+func (q Query) Solve(p Problem) int {
+	// NOTE: Our indexes are 0 based, the problem is 1 based, so we make sure to adjust.
+	v := 0
+	if q.Type == 1 {
+		// 1 L R : Print the value of AL + BL+1 + AL+2 + BL+3 + ... upto Rth term.
+		for i := 0; i+q.L <= q.R; i++ {
+			if i%2 == 0 {
+				v = v + p.A[i+q.L-1]
+			} else {
+				v = v + p.B[i+q.L-1]
+			}
+		}
+	} else {
+		// 2 L R : Print the value of BL + AL+1 + BL+2 + AL+3 + ... upto Rth term.
+		for i := 0; i+q.L <= q.R; i++ {
+			if i%2 == 0 {
+				v = v + p.B[i+q.L-1]
+			} else {
+				v = v + p.A[i+q.L-1]
+			}
+		}
+	}
+	return v
+}
