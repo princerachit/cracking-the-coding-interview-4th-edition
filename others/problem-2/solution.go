@@ -16,11 +16,11 @@ func knapSack(w int, wt []int, val []int) int {
 	// return the maximum of two cases:
 	// 1st item included
 	// not included
-	var1 := val[0] + knapSack(w-wt[0], wt[1:], val[1:])
-	var2 := knapSack(w, wt[1:], val[1:])
+	addFirstItem := val[0] + knapSack(w-wt[0], wt[1:], val[1:])
+	dropFirstItem := knapSack(w, wt[1:], val[1:])
 
-	if var1 > var2 {
-		return var1
+	if addFirstItem > dropFirstItem {
+		return addFirstItem
 	}
-	return var2
+	return dropFirstItem
 }
