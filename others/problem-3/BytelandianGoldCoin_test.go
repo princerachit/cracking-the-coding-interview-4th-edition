@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestByteIndianGoldCoinProblem(t *testing.T) {
+func TestByteLandianGoldCoinProblem(t *testing.T) {
 	tests := []struct {
 		name          string
 		number        int64
@@ -43,7 +43,7 @@ func TestByteIndianGoldCoinProblem(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			actualValue := ByteIndianGoldCoinProblem(tt.number)
+			actualValue := ByteLandianGoldCoinProblem(tt.number)
 			if tt.expectedValue != actualValue {
 				t.Errorf("expected %d got %d", tt.expectedValue, actualValue)
 			}
