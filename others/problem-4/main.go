@@ -2,23 +2,10 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"io"
-	"os"
 	"strconv"
 	"strings"
 )
-
-func main() {
-	p, err := Parse(os.Stdin)
-	if err != nil {
-		fmt.Println("error parsing input:", err)
-		os.Exit(1)
-	}
-	for _, q := range p.Q {
-		fmt.Println(q.Solve(p))
-	}
-}
 
 type Problem struct {
 	A []int
